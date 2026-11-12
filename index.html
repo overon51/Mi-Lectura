@@ -295,7 +295,7 @@
             let carpeta = archivosLibros[id].carpeta || "";
             let urlPdf = "https://overon51.github.io/Mi-Lectura/Libros/" + encodeURIComponent(carpeta) + encodeURIComponent(info.archivo);
             
-            // VISOR DE MOZILLA (Permite zoom dentro de la app)
+            // VISOR DE MOZILLA (Ruta corregida)
             let visorMozilla = "https://mozilla.github.io/pdf.js/web/viewer.html?file=" + encodeURIComponent(urlPdf);
             document.getElementById('link-' + id).href = visorMozilla;
         }
