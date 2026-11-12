@@ -295,9 +295,9 @@
             let carpeta = archivosLibros[id].carpeta || "";
             let urlPdf = "https://overon51.github.io/Mi-Lectura/Libros/" + encodeURIComponent(carpeta) + encodeURIComponent(info.archivo);
             
-            // VISOR DE MODO LECTOR (READABILITY)
-            let visorTexto = "https://mozilla.github.io/readability/?url=" + encodeURIComponent(urlPdf);
-            document.getElementById('link-' + id).href = visorTexto;
+            // VISOR DE MOZILLA (Permite zoom dentro de la app)
+            let visorMozilla = "https://mozilla.github.io/pdf.js/web/viewer.html?file=" + encodeURIComponent(urlPdf);
+            document.getElementById('link-' + id).href = visorMozilla;
         }
 
         // === FUNCIONES DE COPIAS DE SEGURIDAD ===
