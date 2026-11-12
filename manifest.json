@@ -7,10 +7,11 @@
   "theme_color": "#121212",
   "description": "Mi panel de novelas y mangas",
   "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/3145/3145765.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+  {
+    "src": "icon.png",
+    "sizes": "512x512",
+    "type": "image/png",
+    "purpose": "any maskable"
+  }
   ]
 }
