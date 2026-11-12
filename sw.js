@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mi-lector-v1';
+const CACHE_NAME = 'mi-lectoes"v2';
 const ASSETS = [
   './',
   './index.html'
