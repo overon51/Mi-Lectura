@@ -40,6 +40,7 @@
         
         summary::-webkit-details-marker { display: none; } 
         
+        /* COLORES DE LOS BORDES */
         details:nth-of-type(1) summary { border-left: 6px solid #ffeb3b; } /* Amarillo */
         details:nth-of-type(2) summary { border-left: 6px solid #f44336; } /* Rojo */
         details:nth-of-type(3) summary { border-left: 6px solid #4caf50; } /* Verde */
@@ -191,7 +192,7 @@
         </div>
     </details>
 
-    <!-- 3. MANGA (ACTUALIZADO) -->
+    <!-- 3. MANGA -->
     <details>
         <summary>🎨 Apps de Manga</summary>
         <div class="content">
@@ -200,7 +201,6 @@
                 Lleva tu propio conteo. Dale al + cuando avances de capítulo y toca "Abrir" para ir a la app.
             </p>
 
-            <!-- Manga 1: Ejemplo en Manga Dogs -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Mi Manga en Dogs</span>
@@ -210,11 +210,10 @@
                         <button class="btn-plus" onclick="sumarManga('manga1')">+</button>
                     </div>
                 </div>
-                <!-- Botón para abrir Manga Dogs -->
-                <a href="intent://#Intent;package=com.dogs.nine;end" class="btn btn-app">Abrir</a>
+                <!-- Enlace intent mejorado -->
+                <a href="intent://#Intent;package=com.dogs.nine;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end" class="btn btn-app">Abrir</a>
             </div>
 
-            <!-- Manga 2: Ejemplo en Imperio Manhwa -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Mi Manga en Imperio</span>
@@ -224,28 +223,27 @@
                         <button class="btn-plus" onclick="sumarManga('manga2')">+</button>
                     </div>
                 </div>
-                <!-- Botón para abrir Imperio Manhwa -->
-                <a href="intent://#Intent;package=com.imperiomanhwa.lector;end" class="btn btn-app">Abrir</a>
+                <!-- Enlace intent mejorado -->
+                <a href="intent://#Intent;package=com.imperiomanhwa.lector;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end" class="btn btn-app">Abrir</a>
             </div>
 
-<!-- Manga 3: Torre de Dios -->
-<div class="card">
-    <div class="card-info">
-        <span class="card-title">Torre de Dios</span>
-        <div class="progress-container">
-            <button class="btn-plus" onclick="restarManga('manga3')">-</button>
-            <span class="card-progress">Cap: <span id="cap-manga3">652.5</span></span>
-            <button class="btn-plus" onclick="sumarManga('manga3')">+</button>
-        </div>
-    </div>
-    <!-- Botón para abrir Manga Dogs -->
-    <a href="intent://#Intent;package=com.dogs.nine;end" class="btn btn-app">Abrir</a>
-</div>
-          
-            <!-- Botones generales (solo para abrir las apps si quieres buscar algo nuevo) -->
+            <div class="card">
+                <div class="card-info">
+                    <span class="card-title">Torre de Dios</span>
+                    <div class="progress-container">
+                        <button class="btn-plus" onclick="restarManga('manga3')">-</button>
+                        <span class="card-progress">Cap: <span id="cap-manga3">652.5</span></span>
+                        <button class="btn-plus" onclick="sumarManga('manga3')">+</button>
+                    </div>
+                </div>
+                <!-- Enlace intent mejorado -->
+                <a href="intent://#Intent;package=com.dogs.nine;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end" class="btn btn-app">Abrir</a>
+            </div>
+
+            <!-- Botones generales -->
             <div style="margin-top: 20px; border-top: 1px solid #333; padding-top: 15px;">
-                <a href="intent://#Intent;package=com.dogs.nine;end" class="btn btn-app" style="display: block; margin-bottom: 10px; text-align: center;">Solo abrir Manga Dogs</a>
-                <a href="intent://#Intent;package=com.imperiomanhwa.lector;end" class="btn btn-app" style="display: block; text-align: center;">Solo abrir Imperio Manhwa</a>
+                <a href="intent://#Intent;package=com.dogs.nine;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end" class="btn btn-app" style="display: block; margin-bottom: 10px; text-align: center;">Solo abrir Manga Dogs</a>
+                <a href="intent://#Intent;package=com.imperiomanhwa.lector;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end" class="btn btn-app" style="display: block; text-align: center;">Solo abrir Imperio Manhwa</a>
             </div>
 
         </div>
@@ -353,9 +351,8 @@
             localStorage.setItem('tomo_actual_' + id, nuevoTomo);
             
             let carpeta = archivosLibros[id].carpeta || "";
-            // Creamos un enlace especial que fuerza la apertura en Adobe Acrobat
-let urlIntent = "intent://overon51.github.io/Mi-Lectura/Libros/" + encodeURIComponent(carpeta) + encodeURIComponent(info.archivo) + "#Intent;scheme=https;action=android.intent.action.VIEW;type=application/pdf;package=com.adobe.reader;end";
-document.getElementById('link-' + id).href = urlIntent;
+            let urlPdf = "https://overon51.github.io/Mi-Lectura/Libros/" + encodeURIComponent(carpeta) + encodeURIComponent(info.archivo);
+            document.getElementById('link-' + id).href = urlPdf;
         }
 
         // === FUNCIONES DE LOS MANGAS ===
@@ -454,12 +451,12 @@ document.getElementById('link-' + id).href = urlIntent;
             actualizarProgresoLibro('agm', agm);
 
             // Cargar mangas
-['manga1', 'manga2', 'manga3'].forEach(function(id) {
-    let guardadoManga = localStorage.getItem('progreso_' + id);
-    if (guardadoManga) {
-        document.getElementById('cap-' + id).innerText = guardadoManga;
-    }
-});
+            ['manga1', 'manga2', 'manga3'].forEach(function(id) {
+                let guardadoManga = localStorage.getItem('progreso_' + id);
+                if (guardadoManga) {
+                    document.getElementById('cap-' + id).innerText = guardadoManga;
+                }
+            });
 
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
