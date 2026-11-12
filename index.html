@@ -3,50 +3,420 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Lector</title>
+    <link rel="manifest" href="manifest.json">
+    <title>Mi Lectura</title>
     <style>
-        body { font-family: sans-serif; background-color: #121212; color: #ffffff; margin: 0; padding: 20px; }
-        h1 { text-align: center; color: #bb86fc; }
-        h2 { border-bottom: 2px solid #bb86fc; padding-bottom: 5px; margin-top: 30px; }
-        .card { background-color: #1e1e1e; padding: 15px; border-radius: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .card-info { display: flex; flex-direction: column; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: linear-gradient(135deg, #121212 0%, #1a1a2e 100%);
+            color: #ffffff; 
+            margin: 0; 
+            padding: 20px; 
+            min-height: 100vh;
+        }
+        
+        h1 { text-align: center; color: #ffffff; margin-bottom: 30px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+        details {
+            background-color: #1e1e1e;
+            border-radius: 12px;
+            margin-bottom: 25px; 
+            border: 1px solid #333;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4); 
+            overflow: hidden;
+        }
+        
+        summary {
+            padding: 18px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffffff;
+            cursor: pointer;
+            list-style: none; 
+            position: relative;
+            user-select: none;
+            background-color: #252525; 
+        }
+        
+        summary::-webkit-details-marker { display: none; } 
+        
+        /* COLORES DE LOS BORDES */
+        details:nth-of-type(1) summary { border-left: 6px solid #ffeb3b; } /* Amarillo */
+        details:nth-of-type(2) summary { border-left: 6px solid #f44336; } /* Rojo */
+        details:nth-of-type(3) summary { border-left: 6px solid #4caf50; } /* Verde */
+        details:nth-of-type(4) summary { border-left: 6px solid #607d8b; } /* Azul grisáceo */
+        
+        summary::after {
+            content: '+';
+            position: absolute;
+            right: 20px;
+            font-size: 1.3em;
+            color: #a0a0a0;
+        }
+        details[open] summary::after { content: '-'; }
+        
+        .content {
+            padding: 15px;
+            border-top: 1px solid #333;
+            background-color: #1e1e1e;
+        }
+
+        .card { 
+            background-color: #121212; 
+            padding: 15px 20px; 
+            border-radius: 12px; 
+            margin-bottom: 10px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border: 1px solid #222;
+        }
+        .card:last-child { margin-bottom: 0; }
+        .card-info { display: flex; flex-direction: column; gap: 5px; }
         .card-title { font-weight: bold; font-size: 1.1em; }
-        .card-progress { font-size: 0.9em; color: #a0a0a0; margin-top: 5px; }
-        .btn { background-color: #bb86fc; color: #000; text-decoration: none; padding: 8px 12px; border-radius: 5px; font-weight: bold; border: none; cursor: pointer; }
-        .btn-app { background-color: #03dac6; }
+        
+        .progress-container { display: flex; align-items: center; gap: 10px; }
+        .card-progress { font-size: 0.9em; color: #a0a0a0; }
+        
+        .btn-plus { 
+            background-color: #333; color: #fff; border: none; border-radius: 50%; 
+            width: 28px; height: 28px; font-weight: bold; font-size: 1.2em;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+        }
+        .btn-plus:active { background-color: #fff; color: #000; }
+
+        .btn { 
+            background-color: #ffeb3b; color: #000; text-decoration: none; 
+            padding: 10px 18px; border-radius: 8px; font-weight: bold; 
+            font-size: 0.9em; border: none; cursor: pointer; text-align: center;
+        }
+        .btn-app { background-color: #4caf50; color: #fff; }
+        .btn-libro { background-color: #f44336; color: #fff; }
+        
+        /* Estilos para los botones de ajustes */
+        .btn-ajuste {
+            background-color: #455a64; color: #fff; width: 100%; margin-top: 10px;
+            padding: 12px; font-size: 1em; border-radius: 8px; border: none; cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-ajuste:active { background-color: #607d8b; }
+        .btn-actualizar { background-color: #2196f3; }
+        .btn-actualizar:active { background-color: #1976d2; }
     </style>
 </head>
 <body>
 
     <h1>Mi Panel de Lectura</h1>
 
-    <h2>Novelas Ligeras</h2>
-    
-    <div class="card">
-        <div class="card-info">
-            <span class="card-title">Nombre de tu Novela 1</span>
-            <span class="card-progress">Capítulo actual: 45</span>
+    <!-- 1. NOVELAS -->
+    <details open>
+        <summary>📖 Novelas Ligeras</summary>
+        <div class="content">
+            <div class="card">
+                <div class="card-info">
+                    <span class="card-title">Tales of Demons and Gods</span>
+                    <div class="progress-container">
+                        <button class="btn-plus" onclick="restarCapitulo('novela1')">-</button>
+                        <span class="card-progress">Cap: <span id="cap-novela1">496</span></span>
+                        <button class="btn-plus" onclick="sumarCapitulo('novela1')">+</button>
+                    </div>
+                </div>
+                <a href="https://devilnovels.com/tales-of-demons-and-gods/tdg-capitulo-496/" id="link-novela1" class="btn" target="_blank">Leer</a>
+            </div>
+
+            <div class="card">
+                <div class="card-info">
+                    <span class="card-title">Against the Gods</span>
+                    <div class="progress-container">
+                        <button class="btn-plus" onclick="restarCapitulo('novela2')">-</button>
+                        <span class="card-progress">Cap: <span id="cap-novela2">1941</span></span>
+                        <button class="btn-plus" onclick="sumarCapitulo('novela2')">+</button>
+                    </div>
+                </div>
+                <a href="https://devilnovels.com/against-the-gods/atg-capitulo-1941/" id="link-novela2" class="btn" target="_blank">Leer</a>
+            </div>
+
+            <div class="card">
+                <div class="card-info">
+                    <span class="card-title">Martial God Asura</span>
+                    <div class="progress-container">
+                        <button class="btn-plus" onclick="restarCapitulo('novela3')">-</button>
+                        <span class="card-progress">Cap: <span id="cap-novela3">6763</span></span>
+                        <button class="btn-plus" onclick="sumarCapitulo('novela3')">+</button>
+                    </div>
+                </div>
+                <a href="https://devilnovels.com/martial-god-asura/martial-god-asura-capitulo-6763/248318/" id="link-novela3" class="btn" target="_blank">Leer</a>
+            </div>
+
+            <div class="card">
+                <div class="card-info">
+                    <span class="card-title">Emperors Domination</span>
+                    <div class="progress-container">
+                        <button class="btn-plus" onclick="restarCapitulo('novela4')">-</button>
+                        <span class="card-progress">Cap: <span id="cap-novela4">2618</span></span>
+                        <button class="btn-plus" onclick="sumarCapitulo('novela4')">+</button>
+                    </div>
+                </div>
+                <a href="https://devilnovels.com/emperors-domination/emperors-domination-ed-capitulo-2618/" id="link-novela4" class="btn" target="_blank">Leer</a>
+            </div>
         </div>
-        <!-- Cambia el enlace "href" por la URL del capítulo que toque -->
-        <a href="https://tusitio.com/novela1/capitulo-45" class="btn" target="_blank">Leer</a>
-    </div>
+    </details>
 
-    <h2>Apps de Manga</h2>
+    <!-- 2. LIBROS PDF -->
+    <details>
+        <summary>📚 Libros Descargados (PDF)</summary>
+        <div class="content">
+            <div class="card">
+                <div class="card-info">
+                    <span class="card-title">King of Gods</span>
+                    <div class="progress-container">
+                        <button class="btn-plus" onclick="restarLibro('kog')">-</button>
+                        <span class="card-progress">Tomo: <span id="rango-kog">01-100</span></span>
+                        <button class="btn-plus" onclick="sumarLibro('kog')">+</button>
+                    </div>
+                </div>
+                <a href="#" id="link-kog" class="btn btn-libro" target="_blank">Abrir</a>
+            </div>
 
-    <div class="card">
-        <div class="card-info">
-            <span class="card-title">Manga Dogs</span>
+            <div class="card">
+                <div class="card-info">
+                    <span class="card-title">Ancient Godly Monarch</span>
+                    <div class="progress-container">
+                        <button class="btn-plus" onclick="restarLibro('agm')">-</button>
+                        <span class="card-progress">Tomo: <span id="rango-agm">001-100</span></span>
+                        <button class="btn-plus" onclick="sumarLibro('agm')">+</button>
+                    </div>
+                </div>
+                <a href="#" id="link-agm" class="btn btn-libro" target="_blank">Abrir</a>
+            </div>
         </div>
-        <!-- Este enlace abrirá la app si está instalada -->
-        <a href="intent://#Intent;package=com.mangadogs.app;end" class="btn btn-app">Abrir App</a>
-    </div>
+    </details>
 
-    <div class="card">
-        <div class="card-info">
-            <span class="card-title">Imperio Manhwa</span>
+    <!-- 3. MANGA -->
+    <details>
+        <summary>🎨 Apps de Manga</summary>
+        <div class="content">
+            <div class="card">
+                <div class="card-info">
+                    <span class="card-title">Manga Dogs</span>
+                </div>
+                <a href="intent://#Intent;package=com.dogs.nine;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.dogs.nine;end" class="btn btn-app">Abrir App</a>
+            </div>
+
+            <div class="card">
+                <div class="card-info">
+                    <span class="card-title">Imperio Manhwa</span>
+                </div>
+                <a href="intent://#Intent;package=com.imperiomanhwa.lector;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.imperiomanhwa.lector;end" class="btn btn-app">Abrir App</a>
+            </div>
         </div>
-        <a href="intent://#Intent;package=com.hispamanga.app;end" class="btn btn-app">Abrir App</a>
-    </div>
+    </details>
 
+    <!-- 4. AJUSTES Y RESPALDO -->
+    <details>
+        <summary>⚙️ Ajustes y Copias</summary>
+        <div class="content">
+            <p style="font-size: 0.9em; color: #aaa; margin-top: 0; margin-bottom: 15px;">
+                Descarga un archivo con tu progreso para no perderlo nunca.
+            </p>
+            
+            <button class="btn-ajuste" onclick="exportarDatos()">📤 Descargar Copia de Seguridad</button>
+            <button class="btn-ajuste" onclick="prepararImportacion()">📥 Restaurar desde Archivo</button>
+            <button class="btn-ajuste btn-actualizar" onclick="forzarActualizacion()">🔄 Buscar Actualizaciones</button>
+            
+            <!-- INPUT OCULTO PARA SELECCIONAR EL ARCHIVO DE RESTAURACIÓN -->
+            <input type="file" id="archivoBackup" accept=".json" style="display: none;" onchange="restaurarDesdeArchivo(event)">
+        </div>
+    </details>
+
+    <script>
+        // === CONFIGURACIÓN ===
+        const urlsBase = {
+            'novela1': 'https://devilnovels.com/tales-of-demons-and-gods/tdg-capitulo-',
+            'novela2': 'https://devilnovels.com/against-the-gods/atg-capitulo-',
+            'novela3': 'https://devilnovels.com/martial-god-asura/martial-god-asura-capitulo-',
+            'novela4': 'https://devilnovels.com/emperors-domination/emperors-domination-ed-capitulo-'
+        };
+
+        const archivosLibros = {
+            'kog': {
+                carpeta: 'Kings of Gods/',
+                1: { archivo: 'King of Gods 01-100.pdf', texto: '01-100' },
+                2: { archivo: 'King of Gods 101-200.pdf', texto: '101-200' },
+                3: { archivo: 'King of Gods 201-300.pdf', texto: '201-300' },
+                4: { archivo: 'King of Gods 301-400.pdf', texto: '301-400' },
+                5: { archivo: 'King of Gods 401-500.pdf', texto: '401-500' },
+                6: { archivo: 'King of Gods 501-600.pdf', texto: '501-600' },
+                7: { archivo: 'King of Gods 601-700.pdf', texto: '601-700' },
+                8: { archivo: 'King of Gods 701-800.pdf', texto: '701-800' },
+                9: { archivo: 'King of Gods 801-900.pdf', texto: '801-900' },
+                10: { archivo: 'King of Gods 901-1000.pdf', texto: '901-1000' },
+                11: { archivo: 'King of Gods 1001-1100.pdf', texto: '1001-1100' }
+            },
+            'agm': {
+                carpeta: 'Ancient Godly Monarch/',
+                1: { archivo: 'ancient-godly-monarch-001-100.pdf', texto: '001-100' },
+                2: { archivo: 'ancient-godly-monarch-101-200.pdf', texto: '101-200' },
+                3: { archivo: 'ancient-godly-monarch-201-300.pdf', texto: '201-300' },
+                4: { archivo: 'ancient-godly-monarch-301-400.pdf', texto: '301-400' },
+                5: { archivo: 'ancient-godly-monarch-401-500.pdf', texto: '401-500' },
+                6: { archivo: 'ancient-godly-monarch-501-600.pdf', texto: '501-600' },
+                7: { archivo: 'ancient-godly-monarch-601-700.pdf', texto: '601-700' },
+                8: { archivo: 'ancient-godly-monarch-701-800.pdf', texto: '701-800' },
+                9: { archivo: 'ancient-godly-monarch-801-900.pdf', texto: '801-900' },
+                10: { archivo: 'ancient-godly-monarch-901-1000.pdf', texto: '901-1000' },
+                11: { archivo: 'ancient-godly-monarch-1001-1100.pdf', texto: '1001-1100' },
+                12: { archivo: 'ancient-godly-monarch-1101-1200.pdf', texto: '1101-1200' },
+                13: { archivo: 'ancient-godly-monarch-1201-1300.pdf', texto: '1201-1300' },
+                14: { archivo: 'ancient-godly-monarch-1301-1400.pdf', texto: '1301-1400' },
+                15: { archivo: 'ancient-godly-monarch-1401-1500.pdf', texto: '1401-1500' },
+                16: { archivo: 'ancient-godly-monarch-1501-1600.pdf', texto: '1501-1600' },
+                17: { archivo: 'ancient-godly-monarch-1601-1700.pdf', texto: '1601-1700' },
+                18: { archivo: 'ancient-godly-monarch-1701-1800.pdf', texto: '1701-1800' },
+                19: { archivo: 'ancient-godly-monarch-1801-1900.pdf', texto: '1801-1900' },
+                20: { archivo: 'ancient-godly-monarch-1901-2000.pdf', texto: '1901-2000' },
+                21: { archivo: 'ancient-godly-monarch-2001-2050.pdf', texto: '2001-2050' }
+            }
+        };
+
+        // === FUNCIONES DE LAS NOVELAS ===
+        function sumarCapitulo(id) {
+            let cap = parseInt(document.getElementById('cap-' + id).innerText);
+            actualizarProgreso(id, cap + 1);
+        }
+        function restarCapitulo(id) {
+            let cap = parseInt(document.getElementById('cap-' + id).innerText);
+            if (cap > 1) actualizarProgreso(id, cap - 1);
+        }
+        function actualizarProgreso(id, nuevoCap) {
+            document.getElementById('cap-' + id).innerText = nuevoCap;
+            localStorage.setItem('progreso_' + id, nuevoCap);
+            let base = urlsBase[id];
+            if (base) document.getElementById('link-' + id).href = base + nuevoCap + '/';
+        }
+
+        // === FUNCIONES DE LOS LIBROS ===
+        function sumarLibro(id) {
+            let tomo = parseInt(localStorage.getItem('tomo_actual_' + id) || 1);
+            if (archivosLibros[id] && archivosLibros[id][tomo + 1]) {
+                actualizarProgresoLibro(id, tomo + 1);
+            }
+        }
+        function restarLibro(id) {
+            let tomo = parseInt(localStorage.getItem('tomo_actual_' + id) || 1);
+            if (tomo > 1 && archivosLibros[id] && archivosLibros[id][tomo - 1]) {
+                actualizarProgresoLibro(id, tomo - 1);
+            }
+        }
+        function actualizarProgresoLibro(id, nuevoTomo) {
+            let info = archivosLibros[id][nuevoTomo];
+            document.getElementById('rango-' + id).innerText = info.texto;
+            localStorage.setItem('tomo_actual_' + id, nuevoTomo);
+            
+            let carpeta = archivosLibros[id].carpeta || "";
+            let urlPdf = "https://overon51.github.io/Mi-Lectura/Libros/" + encodeURIComponent(carpeta) + encodeURIComponent(info.archivo);
+            let urlGoogle = "https://docs.google.com/viewer?url=" + encodeURIComponent(urlPdf) + "&embedded=true";
+            document.getElementById('link-' + id).href = urlGoogle;
+        }
+
+        // === FUNCIONES DE COPIAS DE SEGURIDAD ===
+        function exportarDatos() {
+            let backup = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                let llave = localStorage.key(i);
+                backup[llave] = localStorage.getItem(llave);
+            }
+            
+            // Convertir a texto legible
+            let textoBackup = JSON.stringify(backup, null, 2);
+            
+            // Crear el archivo descargable
+            const blob = new Blob([textoBackup], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'progreso_mi_lector.json'; // Nombre del archivo que se descargará
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert("✅ Archivo generado.\nBúscalo en tu carpeta de Descargas para guardarlo a buen recaudo.");
+        }
+
+        function prepararImportacion() {
+            // Abre la ventana del explorador de archivos de Android
+            document.getElementById('archivoBackup').click();
+        }
+
+        function restaurarDesdeArchivo(event) {
+            const archivo = event.target.files[0];
+            if (!archivo) return;
+
+            const lector = new FileReader();
+            lector.onload = function(e) {
+                try {
+                    const contenido = e.target.result;
+                    const backup = JSON.parse(contenido);
+
+                    // Restaurar los datos
+                    for (let llave in backup) {
+                        localStorage.setItem(llave, backup[llave]);
+                    }
+                    
+                    alert("✅ ¡Progreso restaurado con éxito! La app se reiniciará.");
+                    location.reload();
+                } catch (error) {
+                    alert("❌ Error: El archivo no es válido o está dañado.");
+                }
+            };
+            lector.readAsText(archivo);
+            
+            // Limpiar el input para que se pueda volver a usar
+            event.target.value = '';
+        }
+
+        // === FORZAR ACTUALIZACIÓN ===
+        function forzarActualizacion() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) {
+                        registration.unregister();
+                    }
+                    caches.keys().then(function(names) {
+                        for (let name of names) caches.delete(name);
+                        window.location.reload(true);
+                    });
+                });
+            } else {
+                window.location.reload(true);
+            }
+        }
+
+        // === AL CARGAR ===
+        window.onload = function() {
+            ['novela1', 'novela2', 'novela3', 'novela4'].forEach(function(id) {
+                let guardado = localStorage.getItem('progreso_' + id);
+                if (guardado) {
+                    document.getElementById('cap-' + id).innerText = guardado;
+                    let base = urlsBase[id];
+                    if (base) document.getElementById('link-' + id).href = base + guardado + '/';
+                }
+            });
+
+            let kog = parseInt(localStorage.getItem('tomo_actual_kog') || 1);
+            actualizarProgresoLibro('kog', kog);
+
+            let agm = parseInt(localStorage.getItem('tomo_actual_agm') || 1);
+            actualizarProgresoLibro('agm', agm);
+
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('sw.js');
+                });
+            }
+        };
+    </script>
 </body>
 </html>
