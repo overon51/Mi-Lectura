@@ -40,7 +40,6 @@
         
         summary::-webkit-details-marker { display: none; } 
         
-        /* COLORES DE LOS BORDES */
         details:nth-of-type(1) summary { border-left: 6px solid #ffeb3b; } /* Amarillo */
         details:nth-of-type(2) summary { border-left: 6px solid #f44336; } /* Rojo */
         details:nth-of-type(3) summary { border-left: 6px solid #4caf50; } /* Verde */
@@ -94,7 +93,6 @@
         .btn-app { background-color: #4caf50; color: #fff; }
         .btn-libro { background-color: #f44336; color: #fff; }
         
-        /* Estilos para los botones de ajustes */
         .btn-ajuste {
             background-color: #455a64; color: #fff; width: 100%; margin-top: 10px;
             padding: 12px; font-size: 1em; border-radius: 8px; border: none; cursor: pointer;
@@ -110,7 +108,7 @@
     <h1>Mi Panel de Lectura</h1>
 
     <!-- 1. NOVELAS -->
-    <details open>
+    <details>
         <summary>📖 Novelas Ligeras</summary>
         <div class="content">
             <div class="card">
@@ -193,23 +191,63 @@
         </div>
     </details>
 
-    <!-- 3. MANGA -->
+    <!-- 3. MANGA (ACTUALIZADO) -->
     <details>
         <summary>🎨 Apps de Manga</summary>
         <div class="content">
+            
+            <p style="font-size: 0.9em; color: #aaa; margin-top: 0; margin-bottom: 15px;">
+                Lleva tu propio conteo. Dale al + cuando avances de capítulo y toca "Abrir" para ir a la app.
+            </p>
+
+            <!-- Manga 1: Ejemplo en Manga Dogs -->
             <div class="card">
                 <div class="card-info">
-                    <span class="card-title">Manga Dogs</span>
+                    <span class="card-title">Mi Manga en Dogs</span>
+                    <div class="progress-container">
+                        <button class="btn-plus" onclick="restarManga('manga1')">-</button>
+                        <span class="card-progress">Cap: <span id="cap-manga1">1</span></span>
+                        <button class="btn-plus" onclick="sumarManga('manga1')">+</button>
+                    </div>
                 </div>
-                <a href="intent://#Intent;package=com.dogs.nine;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.dogs.nine;end" class="btn btn-app">Abrir App</a>
+                <!-- Botón para abrir Manga Dogs -->
+                <a href="intent://#Intent;package=com.dogs.nine;end" class="btn btn-app">Abrir</a>
             </div>
 
+            <!-- Manga 2: Ejemplo en Imperio Manhwa -->
             <div class="card">
                 <div class="card-info">
-                    <span class="card-title">Imperio Manhwa</span>
+                    <span class="card-title">Mi Manga en Imperio</span>
+                    <div class="progress-container">
+                        <button class="btn-plus" onclick="restarManga('manga2')">-</button>
+                        <span class="card-progress">Cap: <span id="cap-manga2">1</span></span>
+                        <button class="btn-plus" onclick="sumarManga('manga2')">+</button>
+                    </div>
                 </div>
-                <a href="intent://#Intent;package=com.imperiomanhwa.lector;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.imperiomanhwa.lector;end" class="btn btn-app">Abrir App</a>
+                <!-- Botón para abrir Imperio Manhwa -->
+                <a href="intent://#Intent;package=com.imperiomanhwa.lector;end" class="btn btn-app">Abrir</a>
             </div>
+
+<!-- Manga 3: Torre de Dios -->
+<div class="card">
+    <div class="card-info">
+        <span class="card-title">Torre de Dios</span>
+        <div class="progress-container">
+            <button class="btn-plus" onclick="restarManga('manga3')">-</button>
+            <span class="card-progress">Cap: <span id="cap-manga3">652.5</span></span>
+            <button class="btn-plus" onclick="sumarManga('manga3')">+</button>
+        </div>
+    </div>
+    <!-- Botón para abrir Manga Dogs -->
+    <a href="intent://#Intent;package=com.dogs.nine;end" class="btn btn-app">Abrir</a>
+</div>
+          
+            <!-- Botones generales (solo para abrir las apps si quieres buscar algo nuevo) -->
+            <div style="margin-top: 20px; border-top: 1px solid #333; padding-top: 15px;">
+                <a href="intent://#Intent;package=com.dogs.nine;end" class="btn btn-app" style="display: block; margin-bottom: 10px; text-align: center;">Solo abrir Manga Dogs</a>
+                <a href="intent://#Intent;package=com.imperiomanhwa.lector;end" class="btn btn-app" style="display: block; text-align: center;">Solo abrir Imperio Manhwa</a>
+            </div>
+
         </div>
     </details>
 
@@ -225,13 +263,12 @@
             <button class="btn-ajuste" onclick="prepararImportacion()">📥 Restaurar desde Archivo</button>
             <button class="btn-ajuste btn-actualizar" onclick="forzarActualizacion()">🔄 Buscar Actualizaciones</button>
             
-            <!-- INPUT OCULTO PARA SELECCIONAR EL ARCHIVO DE RESTAURACIÓN -->
             <input type="file" id="archivoBackup" accept=".json" style="display: none;" onchange="restaurarDesdeArchivo(event)">
         </div>
     </details>
 
     <script>
-        // === CONFIGURACIÓN ===
+        // === CONFIGURACIÓN DE NOVELAS ===
         const urlsBase = {
             'novela1': 'https://devilnovels.com/tales-of-demons-and-gods/tdg-capitulo-',
             'novela2': 'https://devilnovels.com/against-the-gods/atg-capitulo-',
@@ -239,6 +276,7 @@
             'novela4': 'https://devilnovels.com/emperors-domination/emperors-domination-ed-capitulo-'
         };
 
+        // === CONFIGURACIÓN DE LIBROS PDF ===
         const archivosLibros = {
             'kog': {
                 carpeta: 'Kings of Gods/',
@@ -316,8 +354,21 @@
             
             let carpeta = archivosLibros[id].carpeta || "";
             let urlPdf = "https://overon51.github.io/Mi-Lectura/Libros/" + encodeURIComponent(carpeta) + encodeURIComponent(info.archivo);
-            let urlGoogle = "https://docs.google.com/viewer?url=" + encodeURIComponent(urlPdf) + "&embedded=true";
-            document.getElementById('link-' + id).href = urlGoogle;
+            document.getElementById('link-' + id).href = urlPdf;
+        }
+
+        // === FUNCIONES DE LOS MANGAS ===
+        function sumarManga(id) {
+            let cap = parseInt(document.getElementById('cap-' + id).innerText);
+            actualizarProgresoManga(id, cap + 1);
+        }
+        function restarManga(id) {
+            let cap = parseInt(document.getElementById('cap-' + id).innerText);
+            if (cap > 1) actualizarProgresoManga(id, cap - 1);
+        }
+        function actualizarProgresoManga(id, nuevoCap) {
+            document.getElementById('cap-' + id).innerText = nuevoCap;
+            localStorage.setItem('progreso_' + id, nuevoCap);
         }
 
         // === FUNCIONES DE COPIAS DE SEGURIDAD ===
@@ -327,44 +378,34 @@
                 let llave = localStorage.key(i);
                 backup[llave] = localStorage.getItem(llave);
             }
-            
-            // Convertir a texto legible
             let textoBackup = JSON.stringify(backup, null, 2);
-            
-            // Crear el archivo descargable
             const blob = new Blob([textoBackup], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'progreso_mi_lector.json'; // Nombre del archivo que se descargará
+            a.download = 'progreso_mi_lector.json';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-
             alert("✅ Archivo generado.\nBúscalo en tu carpeta de Descargas para guardarlo a buen recaudo.");
         }
 
         function prepararImportacion() {
-            // Abre la ventana del explorador de archivos de Android
             document.getElementById('archivoBackup').click();
         }
 
         function restaurarDesdeArchivo(event) {
             const archivo = event.target.files[0];
             if (!archivo) return;
-
             const lector = new FileReader();
             lector.onload = function(e) {
                 try {
                     const contenido = e.target.result;
                     const backup = JSON.parse(contenido);
-
-                    // Restaurar los datos
                     for (let llave in backup) {
                         localStorage.setItem(llave, backup[llave]);
                     }
-                    
                     alert("✅ ¡Progreso restaurado con éxito! La app se reiniciará.");
                     location.reload();
                 } catch (error) {
@@ -372,8 +413,6 @@
                 }
             };
             lector.readAsText(archivo);
-            
-            // Limpiar el input para que se pueda volver a usar
             event.target.value = '';
         }
 
@@ -394,8 +433,9 @@
             }
         }
 
-        // === AL CARGAR ===
+        // === AL CARGAR LA PÁGINA ===
         window.onload = function() {
+            // Cargar novelas
             ['novela1', 'novela2', 'novela3', 'novela4'].forEach(function(id) {
                 let guardado = localStorage.getItem('progreso_' + id);
                 if (guardado) {
@@ -405,11 +445,20 @@
                 }
             });
 
+            // Cargar libros
             let kog = parseInt(localStorage.getItem('tomo_actual_kog') || 1);
             actualizarProgresoLibro('kog', kog);
 
             let agm = parseInt(localStorage.getItem('tomo_actual_agm') || 1);
             actualizarProgresoLibro('agm', agm);
+
+            // Cargar mangas
+['manga1', 'manga2', 'manga3'].forEach(function(id) {
+    let guardadoManga = localStorage.getItem('progreso_' + id);
+    if (guardadoManga) {
+        document.getElementById('cap-' + id).innerText = guardadoManga;
+    }
+});
 
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
