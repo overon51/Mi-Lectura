@@ -353,8 +353,9 @@
             localStorage.setItem('tomo_actual_' + id, nuevoTomo);
             
             let carpeta = archivosLibros[id].carpeta || "";
-            let urlPdf = "https://overon51.github.io/Mi-Lectura/Libros/" + encodeURIComponent(carpeta) + encodeURIComponent(info.archivo);
-            document.getElementById('link-' + id).href = urlPdf;
+            // Creamos un enlace especial que fuerza la apertura en Adobe Acrobat
+let urlIntent = "intent://overon51.github.io/Mi-Lectura/Libros/" + encodeURIComponent(carpeta) + encodeURIComponent(info.archivo) + "#Intent;scheme=https;action=android.intent.action.VIEW;type=application/pdf;package=com.adobe.reader;end";
+document.getElementById('link-' + id).href = urlIntent;
         }
 
         // === FUNCIONES DE LOS MANGAS ===
