@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mi-lectoes"v17';
+const CACHE_NAME = 'mi-lectoes"A1';
 const ASSETS = [
   './',
   './index.html'
