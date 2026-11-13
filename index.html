@@ -6,63 +6,17 @@
     <link rel="manifest" href="manifest.json">
     <title>Mi Lectura</title>
     <style>
-        /* ==========================================
-           VARIABLES DE COLOR (TEMAS)
-           ========================================== */
-        :root {
-            --bg-start: #121212; --bg-end: #1a1a2e; --text: #ffffff; --text-muted: #aaaaaa;
-            --card-bg: #1e1e1e; --card-inner-bg: #121212; --card-border: #333333; --summary-bg: #252525;
-            --novel-color: #ffeb3b; --novel-text: #000000; --manga-color: #4caf50; --manga-text: #ffffff;
-            --settings-color: #607d8b; --btn-plus-bg: #333333; --btn-plus-text: #ffffff;
-        }
-        body.tema-claro {
-            --bg-start: #f0f2f5; --bg-end: #e0e0e0; --text: #333333; --text-muted: #666666;
-            --card-bg: #ffffff; --card-inner-bg: #f9f9f9; --card-border: #cccccc; --summary-bg: #e8e8e8;
-            --novel-color: #ff9800; --novel-text: #ffffff; --manga-color: #2196f3; --manga-text: #ffffff;
-            --settings-color: #9e9e9e; --btn-plus-bg: #dddddd; --btn-plus-text: #333333;
-        }
-        body.tema-calido {
-            --bg-start: #ffb347; --bg-end: #ffcc33; --text: #2c1e16; --text-muted: #5d4037;
-            --card-bg: #fff8e1; --card-inner-bg: #ffffff; --card-border: #ffd54f; --summary-bg: #ffe082;
-            --novel-color: #e65100; --novel-text: #ffffff; --manga-color: #ef6c00; --manga-text: #ffffff;
-            --settings-color: #ff8f00; --btn-plus-bg: #ffecb3; --btn-plus-text: #2c1e16;
-        }
-        body.tema-primavera {
-            --bg-start: #e8f5e9; --bg-end: #fce4ec; --text: #1b5e20; --text-muted: #558b2f;
-            --card-bg: #ffffff; --card-inner-bg: #f1f8e9; --card-border: #c8e6c9; --summary-bg: #e8f5e9;
-            --novel-color: #f06292; --novel-text: #ffffff; --manga-color: #81c784; --manga-text: #ffffff;
-            --settings-color: #a1887f; --btn-plus-bg: #c8e6c9; --btn-plus-text: #1b5e20;
-        }
-        body.tema-otono {
-            --bg-start: #3e2723; --bg-end: #bf360c; --text: #ffecb3; --text-muted: #ffb300;
-            --card-bg: #4e342e; --card-inner-bg: #3e2723; --card-border: #ff8f00; --summary-bg: #5d4037;
-            --novel-color: #ffb300; --novel-text: #3e2723; --manga-color: #d84315; --manga-text: #ffffff;
-            --settings-color: #795548; --btn-plus-bg: #5d4037; --btn-plus-text: #ffecb3;
-        }
-        body.tema-invierno {
-            --bg-start: #0d1b2a; --bg-end: #1b263b; --text: #e0e1dd; --text-muted: #778da9;
-            --card-bg: #1b263b; --card-inner-bg: #0d1b2a; --card-border: #415a77; --summary-bg: #243b55;
-            --novel-color: #778da9; --novel-text: #ffffff; --manga-color: #48cae4; --manga-text: #0d1b2a;
-            --settings-color: #415a77; --btn-plus-bg: #243b55; --btn-plus-text: #e0e1dd;
-        }
+        :root { --bg-start: #121212; --bg-end: #1a1a2e; --text: #ffffff; --text-muted: #aaaaaa; --card-bg: #1e1e1e; --card-inner-bg: #121212; --card-border: #333333; --summary-bg: #252525; --novel-color: #ffeb3b; --novel-text: #000000; --manga-color: #4caf50; --manga-text: #ffffff; --settings-color: #607d8b; --btn-plus-bg: #333333; --btn-plus-text: #ffffff; }
+        body.tema-claro { --bg-start: #f0f2f5; --bg-end: #e0e0e0; --text: #333333; --text-muted: #666666; --card-bg: #ffffff; --card-inner-bg: #f9f9f9; --card-border: #cccccc; --summary-bg: #e8e8e8; --novel-color: #ff9800; --novel-text: #ffffff; --manga-color: #2196f3; --manga-text: #ffffff; --settings-color: #9e9e9e; --btn-plus-bg: #dddddd; --btn-plus-text: #333333; }
+        body.tema-calido { --bg-start: #ffb347; --bg-end: #ffcc33; --text: #2c1e16; --text-muted: #5d4037; --card-bg: #fff8e1; --card-inner-bg: #ffffff; --card-border: #ffd54f; --summary-bg: #ffe082; --novel-color: #e65100; --novel-text: #ffffff; --manga-color: #ef6c00; --manga-text: #ffffff; --settings-color: #ff8f00; --btn-plus-bg: #ffecb3; --btn-plus-text: #2c1e16; }
+        body.tema-primavera { --bg-start: #e8f5e9; --bg-end: #fce4ec; --text: #1b5e20; --text-muted: #558b2f; --card-bg: #ffffff; --card-inner-bg: #f1f8e9; --card-border: #c8e6c9; --summary-bg: #e8f5e9; --novel-color: #f06292; --novel-text: #ffffff; --manga-color: #81c784; --manga-text: #ffffff; --settings-color: #a1887f; --btn-plus-bg: #c8e6c9; --btn-plus-text: #1b5e20; }
+        body.tema-otono { --bg-start: #3e2723; --bg-end: #bf360c; --text: #ffecb3; --text-muted: #ffb300; --card-bg: #4e342e; --card-inner-bg: #3e2723; --card-border: #ff8f00; --summary-bg: #5d4037; --novel-color: #ffb300; --novel-text: #3e2723; --manga-color: #d84315; --manga-text: #ffffff; --settings-color: #795548; --btn-plus-bg: #5d4037; --btn-plus-text: #ffecb3; }
+        body.tema-invierno { --bg-start: #0d1b2a; --bg-end: #1b263b; --text: #e0e1dd; --text-muted: #778da9; --card-bg: #1b263b; --card-inner-bg: #0d1b2a; --card-border: #415a77; --summary-bg: #243b55; --novel-color: #778da9; --novel-text: #ffffff; --manga-color: #48cae4; --manga-text: #0d1b2a; --settings-color: #415a77; --btn-plus-bg: #243b55; --btn-plus-text: #e0e1dd; }
 
-        body { 
-            font-family: Arial, sans-serif; 
-            background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
-            color: var(--text); margin: 0; padding: 20px; min-height: 100vh;
-            transition: background 0.3s, color 0.3s;
-        }
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%); color: var(--text); margin: 0; padding: 20px; min-height: 100vh; transition: background 0.3s, color 0.3s; }
         h1 { text-align: center; color: var(--text); margin-bottom: 30px; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        details {
-            background-color: var(--card-bg); border-radius: 12px; margin-bottom: 25px; 
-            border: 1px solid var(--card-border); box-shadow: 0 6px 12px rgba(0,0,0,0.15); 
-            overflow: hidden; transition: background-color 0.3s;
-        }
-        summary {
-            padding: 18px 20px; font-size: 1.2em; font-weight: bold; color: var(--text);
-            cursor: pointer; list-style: none; position: relative; user-select: none;
-            background-color: var(--summary-bg); 
-        }
+        details { background-color: var(--card-bg); border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--card-border); box-shadow: 0 6px 12px rgba(0,0,0,0.15); overflow: hidden; transition: background-color 0.3s; }
+        summary { padding: 18px 20px; font-size: 1.2em; font-weight: bold; color: var(--text); cursor: pointer; list-style: none; position: relative; user-select: none; background-color: var(--summary-bg); }
         summary::-webkit-details-marker { display: none; } 
         details:nth-of-type(1) summary { border-left: 6px solid var(--novel-color); } 
         details:nth-of-type(2) summary { border-left: 6px solid var(--manga-color); } 
@@ -70,74 +24,51 @@
         summary::after { content: '+'; position: absolute; right: 20px; font-size: 1.3em; color: var(--text-muted); }
         details[open] summary::after { content: '-'; }
         .content { padding: 15px; border-top: 1px solid var(--card-border); background-color: var(--card-bg); }
-        .card { 
-            background-color: var(--card-inner-bg); padding: 15px 20px; border-radius: 12px; 
-            margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid var(--card-border);
-        }
+        .card { background-color: var(--card-inner-bg); padding: 15px 20px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid var(--card-border); }
         .card:last-child { margin-bottom: 0; }
         .card-info { display: flex; flex-direction: column; gap: 5px; }
         .card-title { font-weight: bold; font-size: 1.1em; color: var(--text); }
         .progress-container { display: flex; align-items: center; gap: 10px; }
         .card-progress { font-size: 0.9em; color: var(--text-muted); }
-        .btn-plus { 
-            background-color: var(--btn-plus-bg); color: var(--btn-plus-text); border: none; border-radius: 50%; 
-            width: 28px; height: 28px; font-weight: bold; font-size: 1.2em;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-        }
+        .btn-plus { background-color: var(--btn-plus-bg); color: var(--btn-plus-text); border: none; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; font-size: 1.2em; display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .btn-plus:active { filter: brightness(0.9); }
-        .btn { 
-            background-color: var(--novel-color); color: var(--novel-text); text-decoration: none; 
-            padding: 10px 18px; border-radius: 8px; font-weight: bold; 
-            font-size: 0.9em; border: none; cursor: pointer; text-align: center;
-        }
+        .btn { background-color: var(--novel-color); color: var(--novel-text); text-decoration: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; font-size: 0.9em; border: none; cursor: pointer; text-align: center; }
         .btn-manga { background-color: var(--manga-color); color: var(--manga-text); }
-        .btn-ajuste {
-            background-color: var(--settings-color); color: #fff; width: 100%; margin-top: 10px;
-            padding: 12px; font-size: 1em; border-radius: 8px; border: none; cursor: pointer; font-weight: bold;
-        }
+        .btn-ajuste { background-color: var(--settings-color); color: #fff; width: 100%; margin-top: 10px; padding: 12px; font-size: 1em; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
         .btn-ajuste:active { filter: brightness(0.9); }
         .btn-actualizar { background-color: #2196f3; }
         .btn-actualizar:active { background-color: #1976d2; }
-        select {
-            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--card-border);
-            background-color: var(--card-inner-bg); color: var(--text); font-size: 1em; margin-bottom: 15px;
-        }
+        .btn-sincronizar { background-color: #4caf50; margin-bottom: 15px; }
+        .btn-sincronizar:active { background-color: #388e3c; }
+        select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--card-border); background-color: var(--card-inner-bg); color: var(--text); font-size: 1em; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
     <h1>Mi Panel de Lectura</h1>
 
-    <!-- ========================================== -->
-    <!-- BLOQUE 1: NOVELAS                          -->
-    <!-- ========================================== -->
+    <!-- BLOQUE 1: NOVELAS -->
     <details>
         <summary>📖 Novelas Ligeras</summary>
         <div class="content">
             
-            <!-- MONARCA SABIO -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Monarca Sabio</span>
                     <div class="progress-container">
                         <button class="btn-plus" onclick="restarCapitulo('monarca')">-</button>
-                        <!-- AQUÍ EL NÚMERO: Cambia 15931 por el capítulo que quieras -->
                         <span class="card-progress">Cap: <span id="cap-monarca">15931</span></span>
                         <button class="btn-plus" onclick="sumarCapitulo('monarca')">+</button>
                     </div>
                 </div>
-                <!-- AQUÍ EL ENLACE: Pega la URL completa del capítulo actual -->
                 <a href="https://www.skynovels.net/novelas/52/monarca-sabio/15931/?readerScroll=page" id="link-monarca" class="btn" target="_blank">Leer</a>
             </div>
 
-            <!-- KING OF GODS -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">King of Gods</span>
                     <div class="progress-container">
                         <button class="btn-plus" onclick="restarCapitulo('kog')">-</button>
-                        <!-- AQUÍ EL NÚMERO -->
                         <span class="card-progress">Cap: <span id="cap-kog">1</span></span>
                         <button class="btn-plus" onclick="sumarCapitulo('kog')">+</button>
                     </div>
@@ -145,13 +76,11 @@
                 <a href="https://novellunar.com/novel/king-of-gods-v1/chapter/1" id="link-kog" class="btn" target="_blank">Leer</a>
             </div>
 
-            <!-- MALDITA REENCARNACIÓN -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Maldita Reencarnación</span>
                     <div class="progress-container">
                         <button class="btn-plus" onclick="restarCapitulo('maldita')">-</button>
-                        <!-- AQUÍ EL NÚMERO -->
                         <span class="card-progress">Cap: <span id="cap-maldita">1</span></span>
                         <button class="btn-plus" onclick="sumarCapitulo('maldita')">+</button>
                     </div>
@@ -159,27 +88,11 @@
                 <a href="https://devilnovels.com/damn-reincarnation/maldita-reencarnacion-capitulo-1/103256/" id="link-maldita" class="btn" target="_blank">Leer</a>
             </div>
 
-            <!-- DOMINIO DEL EMPERADOR (Skynovels) -->
-<div class="card">
-    <div class="card-info">
-        <span class="card-title">Dominio del Emperador</span>
-        <div class="progress-container">
-            <button class="btn-plus" onclick="restarCapitulo('emperors')">-</button>
-            <span class="card-progress">Cap: <span id="cap-emperors">1</span></span>
-            <button class="btn-plus" onclick="sumarCapitulo('emperors')">+</button>
-        </div>
-    </div>
-    <!-- El enlace base termina en barra / para concatenar luego el ID -->
-    <a href="https://www.skynovels.net/novelas/15/dominio-del-emperador/25233/?readerScroll=page" id="link-emperors" class="btn" target="_blank">Leer</a>
-</div>
-
-            <!-- AGAINST THE GODS -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Against the Gods</span>
                     <div class="progress-container">
                         <button class="btn-plus" onclick="restarCapitulo('atg')">-</button>
-                        <!-- AQUÍ EL NÚMERO -->
                         <span class="card-progress">Cap: <span id="cap-atg">1941</span></span>
                         <button class="btn-plus" onclick="sumarCapitulo('atg')">+</button>
                     </div>
@@ -187,52 +100,43 @@
                 <a href="https://devilnovels.com/against-the-gods/atg-capitulo-1941/" id="link-atg" class="btn" target="_blank">Leer</a>
             </div>
 
-            <!-- MARTIAL GOD ASURA -->
-<div class="card">
-    <div class="card-info">
-        <span class="card-title">Martial God Asura</span>
-        <div class="progress-container">
-            <button class="btn-plus" onclick="restarCapitulo('mga')">-</button>
-            <!-- AQUÍ EL NÚMERO: Puesto en 1 -->
-            <span class="card-progress">Cap: <span id="cap-mga">1</span></span>
-            <button class="btn-plus" onclick="sumarCapitulo('mga')">+</button>
-        </div>
-    </div>
-    <!-- AQUÍ EL ENLACE: El que me has pasado del capítulo 1 -->
-    <a href="https://devilnovels.com/martial-god-asura/mga-capitulo-1-discipulo-del-patio/44298/" id="link-mga" class="btn" target="_blank">Leer</a>
-</div>
+            <div class="card">
+                <div class="card-info">
+                    <span class="card-title">Martial God Asura</span>
+                    <div class="progress-container">
+                        <button class="btn-plus" onclick="restarCapitulo('mga')">-</button>
+                        <span class="card-progress">Cap: <span id="cap-mga">1</span></span>
+                        <button class="btn-plus" onclick="sumarCapitulo('mga')">+</button>
+                    </div>
+                </div>
+                <a href="https://devilnovels.com/martial-god-asura/mga-capitulo-1-discipulo-del-patio/44298/" id="link-mga" class="btn" target="_blank">Leer</a>
+            </div>
 
-            <!-- SOVEREIGN OF THE THREE REALMS -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Sovereign of the Three Realms</span>
                     <div class="progress-container">
                         <button class="btn-plus" onclick="restarCapitulo('sotr')">-</button>
-                        <!-- AQUÍ EL NÚMERO -->
                         <span class="card-progress">Cap: <span id="cap-sotr">1</span></span>
                         <button class="btn-plus" onclick="sumarCapitulo('sotr')">+</button>
                     </div>
                 </div>
-                <a href="https://devilnovels.com/sovereign-of-the-three-realms/sotr-capitulo-1-hijo-del-emperador/48498/" id="link-sotr" class="btn" target="_blank">Leer</a>
+                <a href="https://devilnovels.com/sovereign-of-the-three-realms/" id="link-sotr" class="btn" target="_blank">Leer</a>
             </div>
 
         </div>
     </details>
 
-    <!-- ========================================== -->
-    <!-- BLOQUE 2: MANGAS                           -->
-    <!-- ========================================== -->
+    <!-- BLOQUE 2: MANGAS -->
     <details>
         <summary>🎨 Mangas Online (Olympus)</summary>
         <div class="content">
             
-            <!-- ISEKAI -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Isekai KR20</span>
                     <div class="progress-container">
                         <button class="btn-plus" onclick="restarManga('m_isekai')">-</button>
-                        <!-- AQUÍ EL NÚMERO -->
                         <span class="card-progress">Cap: <span id="cap-m_isekai">1</span></span>
                         <button class="btn-plus" onclick="sumarManga('m_isekai')">+</button>
                     </div>
@@ -240,27 +144,23 @@
                 <a href="https://zonaolympus.9thclassresult2026.com/series/comic-isecaikr20-225-arochino13424/capitulo/1" id="link-manga-m_isekai" class="btn btn-manga" target="_blank">Leer</a>
             </div>
 
-            <!-- MAESTRO DE LA ESPADA -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">El Maestro de la Espada</span>
                     <div class="progress-container">
                         <button class="btn-plus" onclick="restarManga('m_maestro')">-</button>
-                        <!-- AQUÍ EL NÚMERO -->
                         <span class="card-progress">Cap: <span id="cap-m_maestro">1</span></span>
                         <button class="btn-plus" onclick="sumarManga('m_maestro')">+</button>
                     </div>
                 </div>
-                <a href="https://zonaolympus.9thclassresult2026.com/series/comic-el-maestro-de-la-espada-acogedor-de-estrellas-20261113-092845356/capitulo/1" id="link-manga-m_maestro" class="btn btn-manga" target="_blank">Leer</a>
+                <a href="https://zonaolympus.9thclassresult2026.com/series/comic-el-maestro-de-la-espada-acogedor-de-estrellas-20261112-080352041/capitulo/1" id="link-manga-m_maestro" class="btn btn-manga" target="_blank">Leer</a>
             </div>
 
-            <!-- HIJO DE LA ESPADA -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">El Hijo de la Espada</span>
                     <div class="progress-container">
                         <button class="btn-plus" onclick="restarManga('m_hijo')">-</button>
-                        <!-- AQUÍ EL NÚMERO -->
                         <span class="card-progress">Cap: <span id="cap-m_hijo">1</span></span>
                         <button class="btn-plus" onclick="sumarManga('m_hijo')">+</button>
                     </div>
@@ -268,13 +168,11 @@
                 <a href="https://zonaolympus.9thclassresult2026.com/series/comic-el-hijo20-225-de-la-espada13424/capitulo/1" id="link-manga-m_hijo" class="btn btn-manga" target="_blank">Leer</a>
             </div>
 
-            <!-- JUGADORES 10000 AÑOS -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Jugadores 10000 Años Después</span>
                     <div class="progress-container">
                         <button class="btn-plus" onclick="restarManga('m_jugadores')">-</button>
-                        <!-- AQUÍ EL NÚMERO -->
                         <span class="card-progress">Cap: <span id="cap-m_jugadores">1</span></span>
                         <button class="btn-plus" onclick="sumarManga('m_jugadores')">+</button>
                     </div>
@@ -285,13 +183,13 @@
         </div>
     </details>
 
-    <!-- ========================================== -->
-    <!-- BLOQUE 3: AJUSTES Y RESPALDO               -->
-    <!-- ========================================== -->
+    <!-- BLOQUE 3: AJUSTES -->
     <details>
         <summary>⚙️ Ajustes y Copias</summary>
         <div class="content">
             
+            <button class="btn-ajuste btn-sincronizar" onclick="sincronizarCodigo()">🔄 Sincronizar Capítulos del Código</button>
+
             <label for="themeSelector" style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 5px; display: block;">
                 🎨 Elige el color de tu app:
             </label>
@@ -317,14 +215,8 @@
     </details>
 
     <script>
-        // ==========================================
-        // CONFIGURACIÓN DE URLS (Solo para auto-avanzar)
-        // ==========================================
-        // Estas son las únicas webs que permiten que el botón "Leer" 
-        // cambie de capítulo automáticamente al darle al "+".
         const urlsAutoIncrementables = {
             'kog': 'https://novellunar.com/novel/king-of-gods-v1/chapter/',
-            'emperors': 'https://devilnovels.com/emperors-domination/emperors-domination-ed-capitulo-',
             'atg': 'https://devilnovels.com/against-the-gods/atg-capitulo-',
             'm_isekai': 'https://zonaolympus.9thclassresult2026.com/series/comic-isecaikr20-225-arochino13424/capitulo/',
             'm_maestro': 'https://zonaolympus.9thclassresult2026.com/series/comic-el-maestro-de-la-espada-acogedor-de-estrellas-20261112-080352041/capitulo/',
@@ -337,9 +229,19 @@
             localStorage.setItem('tema_app', nombreTema);
         }
 
-        // ==========================================
-        // LÓGICA DE LAS NOVELAS
-        // ==========================================
+        function sincronizarCodigo() {
+            if(confirm("¿Quieres borrar el progreso guardado y volver a leer los números escritos en el código?")) {
+                for (let i = localStorage.length - 1; i >= 0; i--) {
+                    let key = localStorage.key(i);
+                    if (key.startsWith('progreso')) {
+                        localStorage.removeItem(key);
+                    }
+                }
+                alert("✅ Progreso sincronizado con el código. La app se reiniciará.");
+                location.reload();
+            }
+        }
+
         function sumarCapitulo(id) {
             let capElement = document.getElementById('cap-' + id);
             let cap = parseInt(capElement.innerText);
@@ -349,7 +251,6 @@
             capElement.innerText = nuevoCap;
             localStorage.setItem('progreso_' + id, nuevoCap);
             
-            // Si la novela está en la lista de "AutoIncrementables", actualizamos el enlace
             if (urlsAutoIncrementables[id]) {
                 document.getElementById('link-' + id).href = urlsAutoIncrementables[id] + nuevoCap + '/';
             }
@@ -371,9 +272,6 @@
             }
         }
 
-        // ==========================================
-        // LÓGICA DE LOS MANGAS
-        // ==========================================
         function sumarManga(id) {
             let capElement = document.getElementById('cap-' + id);
             let cap = parseInt(capElement.innerText);
@@ -404,9 +302,6 @@
             }
         }
 
-        // ==========================================
-        // COPIAS DE SEGURIDAD
-        // ==========================================
         function exportarDatos() {
             let backup = {};
             for (let i = 0; i < localStorage.length; i++) {
@@ -463,28 +358,12 @@
             } else { window.location.reload(true); }
         }
 
-        // ==========================================
-        // ARRANQUE (LIMPIEZA DE NaN)
-        // ==========================================
         window.onload = function() {
-            // 1. Limpiar memoria corrupta (NaN) que causaba los errores
-            for (let i = localStorage.length - 1; i >= 0; i--) {
-                let key = localStorage.key(i);
-                if (key.startsWith('progreso')) {
-                    let val = localStorage.getItem(key);
-                    if (val === "NaN" || val === "undefined" || isNaN(parseInt(val))) {
-                        localStorage.removeItem(key); 
-                    }
-                }
-            }
-
-            // 2. Cargar Tema
             let temaGuardado = localStorage.getItem('tema_app') || 'tema-oscuro';
             document.body.className = temaGuardado;
             document.getElementById('themeSelector').value = temaGuardado;
 
-            // 3. Configurar Novelas
-            const novelas = ['monarca', 'kog', 'maldita', 'emperors', 'atg', 'mga', 'sotr'];
+            const novelas = ['monarca', 'kog', 'maldita', 'atg', 'mga', 'sotr'];
             novelas.forEach(function(id) {
                 let capHTML = parseInt(document.getElementById('cap-' + id).innerText) || 1;
                 let guardado = parseInt(localStorage.getItem('progreso_' + id));
@@ -492,13 +371,11 @@
                 let capFinal = (!isNaN(guardado) && guardado > 0) ? guardado : capHTML;
                 document.getElementById('cap-' + id).innerText = capFinal;
                 
-                // Si es autoincrementable, le ponemos el enlace al arrancar
                 if (urlsAutoIncrementables[id]) {
                     document.getElementById('link-' + id).href = urlsAutoIncrementables[id] + capFinal + '/';
                 }
             });
 
-            // 4. Configurar Mangas
             const mangas = ['m_isekai', 'm_maestro', 'm_hijo', 'm_jugadores'];
             mangas.forEach(function(id) {
                 let capHTML = parseInt(document.getElementById('cap-' + id).innerText) || 1;
@@ -520,4 +397,5 @@
         };
     </script>
 </body>
+</html>
 </html>
