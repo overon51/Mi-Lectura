@@ -142,7 +142,6 @@
         <summary>📖 Novelas Ligeras</summary>
         <div class="content">
             
-            <!-- MONARCA SABIO -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Monarca Sabio</span>
@@ -155,7 +154,6 @@
                 <a href="#" id="link-monarca" class="btn" target="_blank">Leer</a>
             </div>
 
-            <!-- KING OF GODS -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">King of Gods</span>
@@ -168,7 +166,6 @@
                 <a href="#" id="link-kog" class="btn" target="_blank">Leer</a>
             </div>
 
-            <!-- MALDITA REENCARNACIÓN -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Maldita Reencarnación</span>
@@ -181,7 +178,6 @@
                 <a href="#" id="link-maldita" class="btn" target="_blank">Leer</a>
             </div>
 
-            <!-- EMPERORS DOMINATION -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Emperors Domination</span>
@@ -194,7 +190,6 @@
                 <a href="#" id="link-emperors" class="btn" target="_blank">Leer</a>
             </div>
 
-            <!-- AGAINST THE GODS -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Against the Gods</span>
@@ -207,7 +202,6 @@
                 <a href="#" id="link-atg" class="btn" target="_blank">Leer</a>
             </div>
 
-            <!-- MARTIAL GOD ASURA -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Martial God Asura</span>
@@ -220,7 +214,6 @@
                 <a href="#" id="link-mga" class="btn" target="_blank">Leer</a>
             </div>
 
-            <!-- SOVEREIGN OF THE THREE REALMS -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Sovereign of the Three Realms</span>
@@ -243,7 +236,6 @@
         <summary>🎨 Mangas Online (Olympus)</summary>
         <div class="content">
             
-            <!-- ISEKAI -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Isekai KR20</span>
@@ -256,7 +248,6 @@
                 <a href="#" id="link-manga-m_isekai" class="btn btn-manga" target="_blank">Leer</a>
             </div>
 
-            <!-- EL MAESTRO DE LA ESPADA -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">El Maestro de la Espada Acogedor de Estrellas</span>
@@ -269,7 +260,6 @@
                 <a href="#" id="link-manga-m_maestro" class="btn btn-manga" target="_blank">Leer</a>
             </div>
 
-            <!-- EL HIJO DE LA ESPADA -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">El Hijo de la Espada</span>
@@ -282,7 +272,6 @@
                 <a href="#" id="link-manga-m_hijo" class="btn btn-manga" target="_blank">Leer</a>
             </div>
 
-            <!-- JUGADORES 10000 AÑOS DESPUÉS -->
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Jugadores 10000 Años Después</span>
@@ -337,7 +326,7 @@
             // --- NOVELAS ---
             'monarca': 'https://www.skynovels.net/novelas/52/monarca-sabio/',
             'kog': 'https://novellunar.com/novel/king-of-gods-v1/chapter/',
-            'maldita': 'https://devilnovels.com/damn-reincarnation/maldita-reencarnacion-capitulo-', // ¡URL CORREGIDA!
+            'maldita': 'https://devilnovels.com/damn-reincarnation/maldita-reencarnacion-capitulo-', 
             'emperors': 'https://devilnovels.com/emperors-domination/emperors-domination-ed-capitulo-',
             'atg': 'https://devilnovels.com/against-the-gods/atg-capitulo-',
             'mga': 'https://devilnovels.com/martial-god-asura/martial-god-asura-capitulo-', 
@@ -363,12 +352,16 @@
         // ==========================================
         function sumarCapitulo(id) {
             let cap = parseInt(document.getElementById('cap-' + id).innerText);
+            if (isNaN(cap)) cap = 0; // Si por algún motivo falla, empezamos en 0
             actualizarProgreso(id, cap + 1);
         }
+        
         function restarCapitulo(id) {
             let cap = parseInt(document.getElementById('cap-' + id).innerText);
+            if (isNaN(cap)) cap = 1;
             if (cap > 1) actualizarProgreso(id, cap - 1);
         }
+        
         function actualizarProgreso(id, nuevoCap) {
             document.getElementById('cap-' + id).innerText = nuevoCap;
             localStorage.setItem('progreso_' + id, nuevoCap);
@@ -381,12 +374,16 @@
         // ==========================================
         function sumarManga(id) {
             let cap = parseInt(document.getElementById('cap-' + id).innerText);
+            if (isNaN(cap)) cap = 0;
             actualizarManga(id, cap + 1);
         }
+        
         function restarManga(id) {
             let cap = parseInt(document.getElementById('cap-' + id).innerText);
+            if (isNaN(cap)) cap = 1;
             if (cap > 1) actualizarManga(id, cap - 1);
         }
+        
         function actualizarManga(id, nuevoCap) {
             document.getElementById('cap-' + id).innerText = nuevoCap;
             localStorage.setItem('progreso_manga_' + id, nuevoCap);
@@ -457,7 +454,7 @@
         }
 
         // ==========================================
-        // CARGA INICIAL
+        // CARGA INICIAL (AUTO-REPARACIÓN)
         // ==========================================
         window.onload = function() {
             let temaGuardado = localStorage.getItem('tema_app') || 'tema-oscuro';
@@ -467,16 +464,27 @@
             const novelas = ['monarca', 'kog', 'maldita', 'emperors', 'atg', 'mga', 'sotr'];
             novelas.forEach(function(id) {
                 let guardado = localStorage.getItem('progreso_' + id);
-                let cap = guardado ? parseInt(guardado) : parseInt(document.getElementById('cap-' + id).innerText);
-                document.getElementById('cap-' + id).innerText = cap;
-                let base = urlsBase[id];
-                if (base) document.getElementById('link-' + id).href = base + cap + '/';
+                let cap = parseInt(guardado);
+                
+                // Si la memoria está corrupta (NaN) o vacía, lee el HTML
+                if (isNaN(cap)) {
+                    cap = parseInt(document.getElementById('cap-' + id).innerText);
+                    if (isNaN(cap)) cap = 1; // Si el HTML también falla, por defecto 1
+                }
+                
+                actualizarProgreso(id, cap);
             });
 
             const mangas = ['m_isekai', 'm_maestro', 'm_hijo', 'm_jugadores'];
             mangas.forEach(function(id) {
                 let guardadoManga = localStorage.getItem('progreso_manga_' + id);
-                let cap = guardadoManga ? parseInt(guardadoManga) : parseInt(document.getElementById('cap-' + id).innerText);
+                let cap = parseInt(guardadoManga);
+                
+                if (isNaN(cap)) {
+                    cap = parseInt(document.getElementById('cap-' + id).innerText);
+                    if (isNaN(cap)) cap = 1;
+                }
+                
                 actualizarManga(id, cap);
             });
 
