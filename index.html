@@ -52,6 +52,20 @@
         <summary>📖 Novelas Ligeras</summary>
         <div class="content">
             
+            <!-- NUEVO: IMPERATOR'S DOMINATION (Skynovels) -->
+            <div class="card">
+                <div class="card-info">
+                    <span class="card-title">Imperator's Domination</span>
+                    <div class="progress-container">
+                        <button class="btn-plus" onclick="restarCapitulo('emperador')">-</button>
+                        <span class="card-progress">Cap: <span id="cap-emperador">1</span></span>
+                        <button class="btn-plus" onclick="sumarCapitulo('emperador')">+</button>
+                    </div>
+                </div>
+                <!-- Enlace al Capítulo 1 de Skynovels -->
+                <a href="https://www.skynovels.net/novelas/15/dominio-del-emperador/25233/?readerScroll=page" id="link-emperador" class="btn" target="_blank">Leer</a>
+            </div>
+
             <div class="card">
                 <div class="card-info">
                     <span class="card-title">Monarca Sabio</span>
@@ -242,36 +256,41 @@
             }
         }
 
+        // === LÓGICA DE LAS NOVELAS ===
         function sumarCapitulo(id) {
             let capElement = document.getElementById('cap-' + id);
             let cap = parseInt(capElement.innerText);
             if (isNaN(cap)) cap = 0; 
-            let nuevoCap = cap + 1;
-            
-            capElement.innerText = nuevoCap;
-            localStorage.setItem('progreso_' + id, nuevoCap);
-            
-            if (urlsAutoIncrementables[id]) {
-                document.getElementById('link-' + id).href = urlsAutoIncrementables[id] + nuevoCap + '/';
-            }
+            actualizarProgreso(id, cap + 1);
         }
         
         function restarCapitulo(id) {
             let capElement = document.getElementById('cap-' + id);
             let cap = parseInt(capElement.innerText);
             if (isNaN(cap)) cap = 2; 
+            if (cap > 1) actualizarProgreso(id, cap - 1);
+        }
+        
+        function actualizarProgreso(id, nuevoCap) {
+            document.getElementById('cap-' + id).innerText = nuevoCap;
+            localStorage.setItem('progreso_' + id, nuevoCap);
             
-            if (cap > 1) {
-                let nuevoCap = cap - 1;
-                capElement.innerText = nuevoCap;
-                localStorage.setItem('progreso_' + id, nuevoCap);
-                
-                if (urlsAutoIncrementables[id]) {
-                    document.getElementById('link-' + id).href = urlsAutoIncrementables[id] + nuevoCap + '/';
+            // LÓGICA ESPECIAL PARA SKYNOVELS (Imperator's Domination)
+            if (id === 'emperador') {
+                let idBase = 25233; // El ID del capítulo 1
+                let idCapitulo = idBase + (nuevoCap - 1); // Si es cap 2, suma 1. Si es cap 3, suma 2...
+                document.getElementById('link-' + id).href = "https://www.skynovels.net/novelas/15/dominio-del-emperador/" + idCapitulo + "/?readerScroll=page";
+            } 
+            // LÓGICA NORMAL PARA EL RESTO
+            else {
+                let base = urlsAutoIncrementables[id];
+                if (base) {
+                    document.getElementById('link-' + id).href = base + nuevoCap + '/';
                 }
             }
         }
 
+        // === LÓGICA DE LOS MANGAS ===
         function sumarManga(id) {
             let capElement = document.getElementById('cap-' + id);
             let cap = parseInt(capElement.innerText);
@@ -302,6 +321,7 @@
             }
         }
 
+        // === COPIAS DE SEGURIDAD ===
         function exportarDatos() {
             let backup = {};
             for (let i = 0; i < localStorage.length; i++) {
@@ -358,21 +378,29 @@
             } else { window.location.reload(true); }
         }
 
+        // === CARGA INICIAL ===
         window.onload = function() {
             let temaGuardado = localStorage.getItem('tema_app') || 'tema-oscuro';
             document.body.className = temaGuardado;
             document.getElementById('themeSelector').value = temaGuardado;
 
-            const novelas = ['monarca', 'kog', 'maldita', 'atg', 'mga', 'sotr'];
+            // Añadimos 'emperador' a la lista de novelas
+            const novelas = ['emperador', 'monarca', 'kog', 'maldita', 'atg', 'mga', 'sotr'];
+            
             novelas.forEach(function(id) {
                 let capHTML = parseInt(document.getElementById('cap-' + id).innerText) || 1;
                 let guardado = parseInt(localStorage.getItem('progreso_' + id));
                 
                 let capFinal = (!isNaN(guardado) && guardado > 0) ? guardado : capHTML;
-                document.getElementById('cap-' + id).innerText = capFinal;
                 
-                if (urlsAutoIncrementables[id]) {
-                    document.getElementById('link-' + id).href = urlsAutoIncrementables[id] + capFinal + '/';
+                // Si es el emperador, aplicamos la fórmula directamente al cargar
+                if (id === 'emperador') {
+                    actualizarProgreso(id, capFinal);
+                } else {
+                    document.getElementById('cap-' + id).innerText = capFinal;
+                    if (urlsAutoIncrementables[id]) {
+                        document.getElementById('link-' + id).href = urlsAutoIncrementables[id] + capFinal + '/';
+                    }
                 }
             });
 
@@ -397,5 +425,4 @@
         };
     </script>
 </body>
-</html>
 </html>
