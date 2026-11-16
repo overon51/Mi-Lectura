@@ -5,15 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <link rel="manifest" href="manifest.json">
     <title>Mi Lectura</title>
-    
-    <!-- NUEVO SDK DE RESPONSIVEVOICE CON TU CLAVE -->
-    <script src="https://cdn.responsivevoice.org/sdk/latest/responsivevoice.js"></script>
-    <script>
-    responsiveVoice.init({
-        "apiKey": "QmrsRNxQ"
-    });
-    </script>
-
     <style>
         :root { --bg-start: #121212; --bg-end: #1a1a2e; --text: #ffffff; --text-muted: #aaaaaa; --card-bg: #1e1e1e; --card-inner-bg: #121212; --card-border: #333333; --summary-bg: #252525; --novel-color: #ffeb3b; --novel-text: #000000; --manga-color: #4caf50; --manga-text: #ffffff; --settings-color: #607d8b; --audio-color: #9c27b0; --btn-plus-bg: #333333; --btn-plus-text: #ffffff; }
         body.tema-claro { --bg-start: #f0f2f5; --bg-end: #e0e0e0; --text: #333333; --text-muted: #666666; --card-bg: #ffffff; --card-inner-bg: #f9f9f9; --card-border: #cccccc; --summary-bg: #e8e8e8; --novel-color: #ff9800; --novel-text: #ffffff; --manga-color: #2196f3; --manga-text: #ffffff; --settings-color: #9e9e9e; --audio-color: #ab47bc; --btn-plus-bg: #dddddd; --btn-plus-text: #333333; }
@@ -223,7 +214,7 @@
         <summary>🎧 Lector de Audio</summary>
         <div class="content">
             <p style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 10px;">
-                Pega el texto de uno o varios capítulos. Dale a "Limpiar Texto" para quitar anuncios de la web y luego dale a "Reproducir".
+                Pega el texto. Dale a "Limpiar Texto" para quitar anuncios y luego a "Reproducir".
             </p>
             <textarea id="textoAudio" placeholder="Pega el texto del capítulo aquí..."></textarea>
             
@@ -346,11 +337,14 @@
             }
         }
 
-        // === LECTOR DE AUDIO ===
+        // === LECTOR DE AUDIO NATIVO (VÍA GOOGLE) ===
+        let audioPlayer = new Audio();
+        let textoPendiente = "";
+        let isPlaying = false;
+
         function limpiarTexto() {
             let textarea = document.getElementById('textoAudio');
             let texto = textarea.value;
-            
             let lineas = texto.split('\n');
             let lineasLimpias = [];
             
@@ -390,16 +384,53 @@
                 alert("Por favor, pega un texto primero.");
                 return;
             }
-            // La nueva API usa el método speak igual que antes
-            responsiveVoice.speak(texto, "Spanish Latin American Female");
+            
+            // Si ya estaba reproduciendo, paramos el anterior
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            
+            textoPendiente = texto;
+            isPlaying = true;
+            playNextChunk();
+        }
+
+        function playNextChunk() {
+            if (!isPlaying || textoPendiente.length === 0) return;
+
+            // Tomar un trozo de hasta 190 caracteres (cortando en un espacio)
+            let chunk = textoPendiente.substring(0, 190);
+            let lastSpace = chunk.lastIndexOf(' ');
+            if (lastSpace > 0) {
+                chunk = textoPendiente.substring(0, lastSpace);
+                textoPendiente = textoPendiente.substring(lastSpace);
+            } else {
+                textoPendiente = textoPendiente.substring(190);
+            }
+
+            // URL de Google Translate TTS
+            let url = 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(chunk) + '&tl=es&client=tw-ob';
+            
+            audioPlayer.src = url;
+            audioPlayer.play().catch(e => {
+                console.log("Error al reproducir audio. Asegúrate de tener conexión.", e);
+                isPlaying = false;
+            });
+            
+            audioPlayer.onended = () => {
+                if (isPlaying) playNextChunk();
+            };
         }
 
         function pausarAudio() {
-            responsiveVoice.pause();
+            isPlaying = false;
+            audioPlayer.pause();
         }
 
         function detenerAudio() {
-            responsiveVoice.cancel();
+            isPlaying = false;
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            textoPendiente = "";
         }
 
         // === COPIAS DE SEGURIDAD ===
