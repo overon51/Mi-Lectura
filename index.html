@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <link rel="manifest" href="manifest.json">
     <title>Mi Lectura</title>
-    <!-- LIBRERÍA RESPONSIVEVOICE PARA EL LECTOR DE AUDIO -->
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=FREE_KEY"></script>
     <style>
         :root { --bg-start: #121212; --bg-end: #1a1a2e; --text: #ffffff; --text-muted: #aaaaaa; --card-bg: #1e1e1e; --card-inner-bg: #121212; --card-border: #333333; --summary-bg: #252525; --novel-color: #ffeb3b; --novel-text: #000000; --manga-color: #4caf50; --manga-text: #ffffff; --settings-color: #607d8b; --audio-color: #9c27b0; --btn-plus-bg: #333333; --btn-plus-text: #ffffff; }
@@ -34,7 +33,6 @@
         .progress-container { display: flex; align-items: center; gap: 10px; }
         .card-progress { font-size: 0.9em; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
         
-        /* ESTILO PARA EL INPUT DEL NÚMERO DE CAPÍTULO */
         .chapter-input {
             width: 70px;
             background: transparent;
@@ -48,7 +46,6 @@
             font-family: Arial, sans-serif;
         }
         .chapter-input:focus { outline: none; border-color: var(--novel-color); }
-        /* Ocultar las flechitas del input en navegadores WebKit */
         .chapter-input::-webkit-outer-spin-button,
         .chapter-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
@@ -77,7 +74,6 @@
 
     <h1>Mi Panel de Lectura</h1>
 
-    <!-- BLOQUE 1: NOVELAS -->
     <details>
         <summary>📖 Novelas Ligeras</summary>
         <div class="content">
@@ -169,7 +165,6 @@
         </div>
     </details>
 
-    <!-- BLOQUE 2: MANGAS -->
     <details>
         <summary>🎨 Mangas Online (Olympus)</summary>
         <div class="content">
@@ -225,7 +220,6 @@
         </div>
     </details>
 
-    <!-- BLOQUE 3: LECTOR DE AUDIO -->
     <details>
         <summary>🎧 Lector de Audio</summary>
         <div class="content">
@@ -240,7 +234,6 @@
         </div>
     </details>
 
-    <!-- BLOQUE 4: AJUSTES -->
     <details>
         <summary>⚙️ Ajustes y Copias</summary>
         <div class="content">
@@ -299,7 +292,6 @@
             }
         }
 
-        // === LÓGICA DE LAS NOVELAS ===
         function sumarCapitulo(id) {
             let inputElement = document.getElementById('cap-' + id);
             let cap = parseInt(inputElement.value) || 0; 
@@ -313,18 +305,16 @@
         }
         
         function actualizarProgreso(id, nuevoCap) {
-            if (isNaN(nuevoCap) || nuevoCap < 1) nuevoCap = 1; // Evitar números negativos o letras
+            if (isNaN(nuevoCap) || nuevoCap < 1) nuevoCap = 1;
             
             document.getElementById('cap-' + id).value = nuevoCap;
             localStorage.setItem('progreso_' + id, nuevoCap);
             
-            // LÓGICA ESPECIAL PARA SKYNOVELS (Imperator's Domination)
             if (id === 'emperador') {
-                let idBase = 25233; // El ID del capítulo 1
+                let idBase = 25233; 
                 let idCapitulo = idBase + (nuevoCap - 1); 
                 document.getElementById('link-' + id).href = "https://www.skynovels.net/novelas/15/dominio-del-emperador/" + idCapitulo + "/?readerScroll=page";
             } 
-            // LÓGICA NORMAL PARA EL RESTO
             else {
                 let base = urlsAutoIncrementables[id];
                 if (base) {
@@ -333,7 +323,6 @@
             }
         }
 
-        // === LÓGICA DE LOS MANGAS ===
         function sumarManga(id) {
             let inputElement = document.getElementById('cap-' + id);
             let cap = parseInt(inputElement.value) || 0;
@@ -357,14 +346,12 @@
             }
         }
 
-        // === LECTOR DE AUDIO ===
         function reproducirAudio() {
             let texto = document.getElementById('textoAudio').value;
             if (texto.trim() === '') {
                 alert("Por favor, pega un texto primero.");
                 return;
             }
-            // Usa la voz en español de ResponsiveVoice
             responsiveVoice.speak(texto, "Spanish Latin American Female");
         }
 
@@ -376,7 +363,6 @@
             responsiveVoice.cancel();
         }
 
-        // === COPIAS DE SEGURIDAD ===
         function exportarDatos() {
             let backup = {};
             for (let i = 0; i < localStorage.length; i++) {
@@ -433,7 +419,6 @@
             } else { window.location.reload(true); }
         }
 
-        // === CARGA INICIAL ===
         window.onload = function() {
             let temaGuardado = localStorage.getItem('tema_app') || 'tema-oscuro';
             document.body.className = temaGuardado;
